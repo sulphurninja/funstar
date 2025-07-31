@@ -12,6 +12,10 @@ export default async function handler(
     if (req.method === 'POST') {
       const { currentUser } = await serverAuth(req, res);
 
+      if (!currentUser) {
+        return res.status(401).json({ error: 'Not authenticated' });
+      }
+
       const { movieId } = req.body;
 
       const existingMovie = await prismadb.movie.findUnique({
@@ -40,6 +44,10 @@ export default async function handler(
 
     if (req.method === 'DELETE') {
       const { currentUser } = await serverAuth(req, res);
+
+      if (!currentUser) {
+        return res.status(401).json({ error: 'Not authenticated' });
+      }
 
       const { movieId } = req.query as { movieId: string };
 
