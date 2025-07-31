@@ -191,7 +191,7 @@ const Search: NextPage = () => {
               </div>
             ) : (
               <div className="text-center py-12">
-                <p className="text-slate-400 text-lg">No results found for "{searchQuery}"</p>
+                <p className="text-slate-400 text-lg">No results found for &quot;{searchQuery}&quot;</p>
                 <p className="text-slate-500 text-sm mt-2">Try adjusting your search terms</p>
               </div>
             )}

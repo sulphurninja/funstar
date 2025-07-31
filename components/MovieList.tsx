@@ -14,10 +14,11 @@ interface MovieListProps {
 }
 
 const MovieList: React.FC<MovieListProps> = ({ data, title }) => {
-  if (isEmpty(data)) return null;
-
+  // Move hooks to the top, before any conditional logic
   const navigationPrevRef = React.useRef(null);
   const navigationNextRef = React.useRef(null);
+
+  if (isEmpty(data)) return null;
 
   return (
     <motion.section
@@ -53,7 +54,7 @@ const MovieList: React.FC<MovieListProps> = ({ data, title }) => {
         >
           <HiChevronLeft className="text-xl" />
         </motion.button>
-        
+
         <motion.button
           ref={navigationNextRef}
           className="absolute right-8 top-1/2 -translate-y-1/2 z-20 bg-slate-900/80 backdrop-blur-sm hover:bg-slate-800/90 text-white p-4 rounded-full opacity-0 group-hover:opacity-100 transition-all duration-500 shadow-2xl border border-slate-700/50 hover:border-slate-600"
@@ -96,8 +97,8 @@ const MovieList: React.FC<MovieListProps> = ({ data, title }) => {
                 <motion.div
                   initial={{ opacity: 0, scale: 0.95 }}
                   whileInView={{ opacity: 1, scale: 1 }}
-                  transition={{ 
-                    duration: 0.6, 
+                  transition={{
+                    duration: 0.6,
                     delay: index * 0.1,
                     ease: "easeOut"
                   }}
