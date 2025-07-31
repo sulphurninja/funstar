@@ -1,0 +1,119 @@
+[
+  {
+    "_id": { "$oid": "test_id_1" },
+    "title": "Big Buck Bunny",
+    "description": "Three rodents amuse themselves by harassing creatures of the forest. However, when they mess with a bunny, he decides to teach them a lesson.",
+    "videoUrl": "https://res.cloudinary.com/salimi/video/upload/v1684221792/netflix-clone-video/big-buck-bunny_pyiwx7.mp4",
+    "thumbnailUrl": "https://res.cloudinary.com/salimi/image/upload/v1684218092/video-poster/big-buck-bunny_jutuum.jpg",
+    "genre": ["Comedy", "Animation", "Short"],
+    "duration": "0h 10m"
+  },
+  {
+    "_id": { "$oid": "test_id_2" },
+    "title": "Sintel",
+    "description": "A lonely young woman, Sintel, helps and befriends a dragon, whom she calls Scales. But when he is kidnapped by an adult dragon, Sintel decides to embark on a dangerous quest to find her lost friend Scales.",
+    "videoUrl": "https://res.cloudinary.com/salimi/video/upload/v1684225261/netflix-clone-video/sintel_mxhyer.mp4",
+    "thumbnailUrl": "https://res.cloudinary.com/salimi/image/upload/v1684218091/video-poster/sintel_uixa0t.jpg",
+    "genre": ["Fantasy", "Animation", "Short"],
+    "duration": "0h 15m"
+  },
+  {
+    "_id": { "$oid": "test_id_3" },
+    "title": "Tears of Steel",
+    "description": "In an apocalyptic future, a group of soldiers and scientists takes refuge in Amsterdam to try to stop an army of robots that threatens the planet.",
+    "videoUrl": "https://res.cloudinary.com/salimi/video/upload/v1684225002/netflix-clone-video/tears-of-steel_hkqisy.mp4",
+    "thumbnailUrl": "https://res.cloudinary.com/salimi/image/upload/v1684218088/video-poster/tears-of-steel_jw42td.jpg",
+    "genre": ["Sci-Fi", "Short"],
+    "duration": "0h 12m"
+  },
+  {
+    "_id": { "$oid": "test_id_4" },
+    "title": "Elephants Dream",
+    "description": "Friends Proog and Emo journey inside the folds of a seemingly infinite Machine, exploring the dark and twisted complex of wires, gears, and cogs, until a moment of conflict negates all their assumptions.",
+    "videoUrl": "https://res.cloudinary.com/salimi/video/upload/v1684223216/netflix-clone-video/elephants-dream_rpmcc2.mp4",
+    "thumbnailUrl": "https://res.cloudinary.com/salimi/image/upload/v1684218092/video-poster/elephants-dream_ikowjk.jpg",
+    "genre": ["Sci-Fi", "Animation", "Short"],
+    "duration": "0h 15m"
+  },
+  {
+    "_id": { "$oid": "test_id_5" },
+    "title": "Spring",
+    "description": "Spring is the story of a shepherd girl and her dog, who face ancient spirits in order to continue the cycle of life. This poetic and visually stunning short film was written and directed by Andy Goralczyk, inspired by his childhood in the mountains of Germany.",
+    "videoUrl": "https://res.cloudinary.com/salimi/video/upload/v1684221803/netflix-clone-video/spring_osiq4o.mp4",
+    "thumbnailUrl": "https://res.cloudinary.com/salimi/image/upload/v1684218090/video-poster/spring_vnewrb.jpg",
+    "genre": ["Adventure", "Animation", "Short"],
+    "duration": "0h 8m"
+  },
+  {
+    "_id": { "$oid": "test_id_6" },
+    "title": "Cosmos Laundromat",
+    "description": "On a desolate island, suicidal sheep Franck meets his fate in a quirky salesman, who offers him the gift of a lifetime. Little does he know that he can only handle this much 'lifetime'.",
+    "videoUrl": "https://res.cloudinary.com/salimi/video/upload/v1684224756/netflix-clone-video/cosmos-laundromat-first-cycle_k0b2db.mp4",
+    "thumbnailUrl": "https://res.cloudinary.com/salimi/image/upload/v1684218095/video-poster/cosmos-laundromat-first-cycle_vwmmik.jpg",
+    "genre": ["Fantasy", "Animation", "Short"],
+    "duration": "0h 12m"
+  },
+  {
+    "_id": { "$oid": "test_id_7" },
+    "title": "Sprite Fright",
+    "description": "When a group of rowdy teenagers trek into an isolated forest, they discover peaceful mushroom creatures that turn out to be an unexpected force of nature.",
+    "videoUrl": "https://res.cloudinary.com/salimi/video/upload/v1684224514/netflix-clone-video/sprite-fright_d827yg.mp4",
+    "thumbnailUrl": "https://res.cloudinary.com/salimi/image/upload/v1684218089/video-poster/sprite-fright_flxxw9.jpg",
+    "genre": ["Horror", "Comedy", "Short"],
+    "duration": "0h 10m"
+  },
+  {
+    "_id": { "$oid": "test_id_8" },
+    "title": "Charge",
+    "description": "In an energy-scarce dystopia, an old destitute man breaks into a battery factory but soon finds himself confronted by a deadly security droid and no way out.",
+    "videoUrl": "https://res.cloudinary.com/salimi/video/upload/v1684379273/netflix-clone-video/charge_dsjn1a.mp4",
+    "thumbnailUrl": "https://res.cloudinary.com/salimi/image/upload/v1684379388/video-poster/charge_vj4f3n.jpg",
+    "genre": ["Action", "Sci-Fi", "Short"],
+    "duration": "0h 5m"
+  },
+  {
+    "_id": { "$oid": "test_id_9" },
+    "title": "Coffee Run",
+    "description": "Fueled by caffeine, a young woman runs through the bittersweet memories of her past relationship.",
+    "videoUrl": "https://res.cloudinary.com/salimi/video/upload/v1684379268/netflix-clone-video/coffee-run_d7nzcv.mp4",
+    "thumbnailUrl": "https://res.cloudinary.com/salimi/image/upload/v1684379388/video-poster/coffee-run_h1ayag.jpg",
+    "genre": ["Animation", "Short"],
+    "duration": "0h 3m"
+  },
+  {
+    "_id": { "$oid": "test_id_10" },
+    "title": "Hero",
+    "description": "Hero is a showcase for the upcoming Grease Pencil in Blender 2.8. Grease Pencil means 2D animation tools within a full 3D pipeline.",
+    "videoUrl": "https://res.cloudinary.com/salimi/video/upload/v1684379279/netflix-clone-video/hero_krl0fp.mp4",
+    "thumbnailUrl": "https://res.cloudinary.com/salimi/image/upload/v1684379387/video-poster/hero_wakye1.jpg",
+    "genre": ["Animation", "Action", "Short"],
+    "duration": "0h 4m"
+  },
+  {
+    "_id": { "$oid": "test_id_11" },
+    "title": "Agent 327",
+    "description": "Agent 327 is investigating a clue that leads him to a shady barbershop in Amsterdam. Little does he know that he is being tailed by mercenary Boris Kloris.",
+    "videoUrl": "https://res.cloudinary.com/salimi/video/upload/v1684379258/netflix-clone-video/agent-327_b7dqhy.mp4",
+    "thumbnailUrl": "https://res.cloudinary.com/salimi/image/upload/v1684379388/video-poster/agent-327_vupg4z.jpg",
+    "genre": ["Animation", "Short"],
+    "duration": "0h 4m"
+  },
+  {
+    "_id": { "$oid": "test_id_12" },
+    "title": "Caminandes: Gran Dillama",
+    "description": "A young llama named Koro discovers that the grass is always greener on the other side (of the fence).",
+    "videoUrl": "https://res.cloudinary.com/salimi/video/upload/v1684379278/netflix-clone-video/caminandes-gran-dillama_hyyjjv.mp4",
+    "thumbnailUrl": "https://res.cloudinary.com/salimi/image/upload/v1684379388/video-poster/caminandes-gran-dillama_w8ldhs.jpg",
+    "genre": ["Animation", "Comedy", "Short"],
+    "duration": "0h 3m"
+  },
+  {
+    "_id": { "$oid": "test_id_13" },
+    "title": "Caminandes: Llamigos",
+    "description": "It's winter in Patagonia, food is getting scarce. Koro the Llama engages with Oti the pesky penguin in an epic fight over that last tasty berry.",
+    "videoUrl": "https://res.cloudinary.com/salimi/video/upload/v1684379277/netflix-clone-video/caminandes-llamigos_xe1kgg.mp4",
+    "thumbnailUrl": "https://res.cloudinary.com/salimi/image/upload/v1684379388/video-poster/caminandes-llamigos_sgtzpf.jpg",
+    "genre": ["Adventure", "Comedy", "Short"],
+    "duration": "0h 2m"
+  }
+]

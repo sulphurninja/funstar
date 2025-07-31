@@ -1,0 +1,300 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Clean Reset */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+/* Clean Base Styles */
+html {
+  scroll-behavior: smooth;
+  background: #000000;
+  height: 100%;
+}
+
+body {
+  background: #000000;
+  color: #ffffff;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+  overflow-x: hidden;
+  height: 100%;
+}
+
+#__next {
+  min-height: 100vh;
+  background: #000000;
+  height: 100%;
+}
+
+/* Override ALL old Swiper styles */
+.swiper-wrapper {
+  padding: 0 !important;
+  margin: 0 !important;
+}
+
+.swiper-button-prev,
+.swiper-button-next {
+  display: none !important;
+  opacity: 0 !important;
+  visibility: hidden !important;
+}
+
+.swiper-button-prev:after,
+.swiper-button-next:after {
+  display: none !important;
+  content: none !important;
+}
+
+.swiper-button-next:hover,
+.swiper-button-prev:hover {
+  background: none !important;
+  background-image: none !important;
+}
+
+.swiper-slide {
+  width: auto !important;
+  height: auto !important;
+}
+
+/* Remove ALL old vignette and gradient styles */
+.bottom-vignette,
+.left-vignette,
+.modal-vignette,
+.landing-vignette,
+.gradient-box,
+.landing-bg,
+.premium-glow,
+.premium-text-glow,
+.premium-shimmer,
+.premium-pulse {
+  display: none !important;
+  opacity: 0 !important;
+  visibility: hidden !important;
+}
+
+/* Clean Scrollbar */
+::-webkit-scrollbar {
+  width: 4px;
+  height: 4px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #333333;
+  border-radius: 2px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #555555;
+}
+
+::-webkit-scrollbar-corner {
+  background: transparent;
+}
+
+/* Clean Utilities */
+.line-clamp-1 {
+  display: -webkit-box;
+  -webkit-line-clamp: 1;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.line-clamp-2 {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+/* Clean Focus States */
+button:focus-visible,
+[role="button"]:focus-visible {
+  outline: 2px solid #ffffff;
+  outline-offset: 2px;
+}
+
+/* Clean Selection */
+::selection {
+  background: rgba(255, 255, 255, 0.2);
+  color: white;
+}
+
+::-moz-selection {
+  background: rgba(255, 255, 255, 0.2);
+  color: white;
+}
+
+/* Remove any old keyframe animations */
+@keyframes none {
+  0%, 100% { opacity: 1; }
+}
+
+/* Override any old animation classes */
+.animate-shimmer,
+.animate-float,
+.animate-pulse,
+.premium-hover-scale {
+  animation: none !important;
+  transform: none !important;
+}
+
+/* Clean up any old details/summary styles */
+details summary {
+  transition: none;
+  background: none !important;
+}
+
+details summary::-webkit-details-marker {
+  display: list-item;
+}
+
+details summary:hover {
+  background: none !important;
+}
+
+details[open] summary {
+  background: none !important;
+}
+
+details[open] summary::after {
+  transform: none !important;
+}
+
+details[open] summary ~ * {
+  animation: none !important;
+}
+
+details[open] summary p {
+  animation: none !important;
+}
+
+/* Remove old keyframes completely */
+@keyframes slideDown { display: none; }
+@keyframes showContent { display: none; }
+@keyframes premium-shimmer { display: none; }
+@keyframes premium-pulse { display: none; }
+
+/* Ensure clean layout */
+.group\/card:hover .premium-hover-scale {
+  transform: none !important;
+}
+
+/* Media query overrides */
+@media only screen and (min-width: 768px) {
+  .swiper-wrapper {
+    padding: 0 !important;
+  }
+
+  .swiper-button-prev,
+  .swiper-button-next {
+    display: none !important;
+    width: 0 !important;
+    height: 0 !important;
+  }
+}
+
+@media only screen and (min-width: 1024px) {
+  .swiper-wrapper {
+    padding: 0 !important;
+  }
+
+  .swiper-button-prev,
+  .swiper-button-next {
+    display: none !important;
+    width: 0 !important;
+    height: 0 !important;
+  }
+}
+
+@media only screen and (min-width: 1440px) {
+  .swiper-wrapper {
+    padding: 0 !important;
+  }
+
+  .swiper-button-prev,
+  .swiper-button-next {
+    display: none !important;
+    width: 0 !important;
+    height: 0 !important;
+  }
+}
+
+@media only screen and (min-width: 1536px) {
+  .swiper-wrapper {
+    padding: 0 !important;
+  }
+
+  .swiper-button-prev,
+  .swiper-button-next {
+    display: none !important;
+    width: 0 !important;
+    height: 0 !important;
+  }
+}
+
+/* Ensure reduced motion compliance */
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* Clean tailwind color overrides */
+.bg-dark-netfuix {
+  background: #000000 !important;
+}
+
+.text-red-netfuix {
+  color: #ffffff !important;
+}
+
+/* Add these styles to your existing globals.css */
+
+.landing-bg {
+  background: linear-gradient(rgba(15, 23, 42, 0.8), rgba(15, 23, 42, 0.9)), 
+              url('/images/hero-bg.jpg') center center;
+  background-size: cover;
+  min-height: 100vh;
+}
+
+/* Custom scrollbar for better aesthetics */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: rgba(51, 65, 85, 0.3);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(to bottom, #6366f1, #8b5cf6);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(to bottom, #4f46e5, #7c3aed);
+}
+
+/* Enhanced gradient boxes */
+.gradient-box {
+  background: linear-gradient(135deg, rgba(51, 65, 85, 0.4) 0%, rgba(30, 41, 59, 0.6) 100%);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(148, 163, 184, 0.2);
+}
+
+.gradient-box:hover {
+  border-color: rgba(148, 163, 184, 0.4);
+  transform: translateY(-4px);
+  transition: all 0.3s ease;
+}
