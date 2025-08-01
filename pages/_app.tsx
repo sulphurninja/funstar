@@ -6,7 +6,7 @@ function MyApp({ Component, pageProps }: AppProps) {
   return (
     <>
       <Head>
-        <title>Funstar — Premium Entertainment Streaming Platform</title>
+        <title>OceanTV — Premium Entertainment Streaming Platform</title>
         <meta name='title' content='Funstar — Premium Entertainment Streaming Platform' />
         <meta
           name='description'
@@ -52,8 +52,8 @@ function MyApp({ Component, pageProps }: AppProps) {
         <meta name='apple-mobile-web-app-status-bar-style' content='black-translucent' />
         <meta name='mobile-web-app-capable' content='yes' />
         
-        {/* Proper Mobile Viewport */}
-        <meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=5.0, minimum-scale=1.0, user-scalable=yes, viewport-fit=cover' />
+        {/* Mobile App-like Viewport - No zoom but mobile optimized */}
+        <meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no, viewport-fit=cover' />
 
         {/* Favicons */}
         <link
@@ -130,7 +130,7 @@ function MyApp({ Component, pageProps }: AppProps) {
         <meta httpEquiv='X-Frame-Options' content='DENY' />
         <meta httpEquiv='X-XSS-Protection' content='1; mode=block' />
         
-        {/* Enhanced Critical CSS for mobile responsiveness */}
+        {/* Mobile App-like Critical CSS - No zoom but native feel */}
         <style dangerouslySetInnerHTML={{
           __html: `
             /* Mobile-first critical CSS */
@@ -143,6 +143,9 @@ function MyApp({ Component, pageProps }: AppProps) {
               -webkit-text-size-adjust: 100%;
               -webkit-font-smoothing: antialiased;
               -moz-osx-font-smoothing: grayscale;
+              /* Disable zoom */
+              -webkit-user-select: none;
+              -webkit-touch-callout: none;
             }
             
             body { 
@@ -153,6 +156,8 @@ function MyApp({ Component, pageProps }: AppProps) {
               overflow-x: hidden;
               min-height: 100vh;
               line-height: 1.5;
+              /* Disable zoom gestures */
+              touch-action: pan-x pan-y;
             }
             
             /* Mobile loading screen */
@@ -212,10 +217,19 @@ function MyApp({ Component, pageProps }: AppProps) {
               display: none;
             }
             
-            /* Mobile touch improvements */
+            /* Mobile touch improvements - No zoom but native feel */
             button, a {
               -webkit-tap-highlight-color: transparent;
               touch-action: manipulation;
+              cursor: pointer;
+            }
+            
+            /* Disable text selection for app-like feel */
+            .no-select {
+              -webkit-user-select: none;
+              -moz-user-select: none;
+              -ms-user-select: none;
+              user-select: none;
             }
             
             /* Safe area for mobile devices */
@@ -226,6 +240,11 @@ function MyApp({ Component, pageProps }: AppProps) {
               .safe-area-inset-bottom {
                 padding-bottom: max(1rem, env(safe-area-inset-bottom));
               }
+            }
+            
+            /* Disable zoom on input focus */
+            input, textarea, select {
+              font-size: 16px !important;
             }
           `
         }} />
@@ -246,6 +265,29 @@ function MyApp({ Component, pageProps }: AppProps) {
       <script dangerouslySetInnerHTML={{
         __html: `
           (function() {
+            // Disable zoom with JavaScript as additional layer
+            document.addEventListener('gesturestart', function (e) {
+              e.preventDefault();
+            });
+            
+            document.addEventListener('gesturechange', function (e) {
+              e.preventDefault();
+            });
+            
+            document.addEventListener('gestureend', function (e) {
+              e.preventDefault();
+            });
+            
+            // Disable double-tap zoom
+            let lastTouchEnd = 0;
+            document.addEventListener('touchend', function (event) {
+              const now = (new Date()).getTime();
+              if (now - lastTouchEnd <= 300) {
+                event.preventDefault();
+              }
+              lastTouchEnd = now;
+            }, false);
+            
             function removeLoadingScreen() {
               const loadingScreen = document.getElementById('loading-screen');
               if (loadingScreen) {
