@@ -20,13 +20,15 @@ const Watch = () => {
           <span className='font-normal'>Watching:</span> {data?.title}
         </p>
       </nav>
-      <video
+    <iframe
         className='h-full w-full'
-        autoPlay
-        controls
-        controlsList='nodownload'
         src={data?.videoUrl}
-      ></video>
+        title={data?.title || 'Video Player'}
+        allowFullScreen
+        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+        referrerPolicy="strict-origin-when-cross-origin"
+        frameBorder="0"
+      />
     </div>
   );
 };

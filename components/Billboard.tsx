@@ -1,14 +1,20 @@
 import React, { useEffect, useRef, useState } from 'react';
-import useBillboard from '../hooks/useBillboard';
+import useTrending from '../hooks/useTrending';
 import { BsFillPlayFill } from 'react-icons/bs';
 import { HiInformationCircle, HiPlus, HiStar, HiVolumeOff, HiVolumeUp } from 'react-icons/hi';
 import { motion, AnimatePresence } from 'framer-motion';
 
 const Billboard = () => {
-  const { data } = useBillboard();
+  const { data: trendingMovies } = useTrending();
+  const [currentMovieIndex, setCurrentMovieIndex] = useState(0);
   const videoRef = useRef<HTMLVideoElement>(null);
   const [isMute, setIsMute] = useState(true);
   const [showContent, setShowContent] = useState(false);
+
+  // Get current trending movie
+  const data = trendingMovies && trendingMovies.length > 0 
+    ? trendingMovies[currentMovieIndex] 
+    : null;
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -19,6 +25,26 @@ const Billboard = () => {
     }, 800);
     return () => clearTimeout(timer);
   }, []);
+
+  // Auto-rotate trending movies every 10 seconds
+  useEffect(() => {
+    if (trendingMovies && trendingMovies.length > 1) {
+      const interval = setInterval(() => {
+        setCurrentMovieIndex((prev) => 
+          prev >= trendingMovies.length - 1 ? 0 : prev + 1
+        );
+      }, 10000);
+      return () => clearInterval(interval);
+    }
+  }, [trendingMovies]);
+
+  if (!data) {
+    return (
+      <div className='relative h-screen w-full overflow-hidden bg-slate-900 flex items-center justify-center'>
+        <div className="text-white text-xl">No trending movies available</div>
+      </div>
+    );
+  }
 
   return (
     <div className='relative h-screen w-full overflow-hidden'>
@@ -36,6 +62,21 @@ const Billboard = () => {
       <div className='absolute inset-0 bg-gradient-to-r from-slate-950/95 via-slate-950/60 to-slate-950/20' />
       <div className='absolute inset-0 bg-gradient-to-t from-slate-950/90 via-transparent to-slate-950/30' />
 
+      {/* Trending indicators */}
+      {trendingMovies && trendingMovies.length > 1 && (
+        <div className="absolute top-6 right-6 flex gap-2">
+          {trendingMovies.map((_, index) => (
+            <button
+              key={index}
+              onClick={() => setCurrentMovieIndex(index)}
+              className={`w-2 h-2 rounded-full transition-all ${
+                index === currentMovieIndex ? 'bg-white' : 'bg-white/30'
+              }`}
+            />
+          ))}
+        </div>
+      )}
+
       {/* Responsive content container */}
       <div className='absolute inset-0 flex items-center'>
         <div className='w-full px-4 sm:px-6 lg:px-12 xl:px-16 2xl:px-20'>
@@ -43,8 +84,10 @@ const Billboard = () => {
             <AnimatePresence>
               {showContent && (
                 <motion.div
+                  key={currentMovieIndex}
                   initial={{ opacity: 0, y: 40 }}
                   animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -40 }}
                   transition={{ duration: 0.8, ease: "easeOut" }}
                 >
                   {/* Premium content metadata */}
@@ -55,8 +98,9 @@ const Billboard = () => {
                     transition={{ duration: 0.6, delay: 0.2 }}
                   >
                     <div className="flex items-center gap-3">
-                      <span className="bg-gradient-to-r from-slate-700 to-slate-600 text-white text-xs sm:text-sm font-medium px-3 py-1.5 rounded-md backdrop-blur-sm border border-slate-600/50">
-                        EXCLUSIVE PREMIERE
+                      <span className="bg-gradient-to-r from-yellow-600 to-orange-600 text-white text-xs sm:text-sm font-bold px-3 py-1.5 rounded-md backdrop-blur-sm border border-yellow-500/50 flex items-center gap-1">
+                        <HiStar className="text-xs" />
+                        TRENDING NOW
                       </span>
                       <div className="flex items-center gap-1.5 text-slate-300">
                         <HiStar className="text-amber-400 text-sm" />
@@ -109,24 +153,9 @@ const Billboard = () => {
                       <span>Watch Now</span>
                     </motion.button>
                     
-                    <motion.button 
-                      className='bg-slate-800/80 backdrop-blur-sm hover:bg-slate-700/80 text-white font-semibold px-6 sm:px-8 py-3 sm:py-4 rounded-lg flex items-center justify-center gap-3 transition-all duration-300 border border-slate-600/50 hover:border-slate-500/50 text-sm sm:text-base lg:text-lg order-2'
-                      whileHover={{ scale: 1.02 }}
-                      whileTap={{ scale: 0.98 }}
-                    >
-                      <HiPlus className='text-base sm:text-lg lg:text-xl' />
-                      <span className="hidden sm:inline">Add to</span>
-                      <span>Watchlist</span>
-                    </motion.button>
+                  
                     
-                    <motion.button 
-                      className='bg-transparent hover:bg-white/10 text-white font-semibold px-6 sm:px-8 py-3 sm:py-4 rounded-lg flex items-center justify-center gap-3 transition-all duration-300 border border-slate-600/50 hover:border-slate-500/50 backdrop-blur-sm text-sm sm:text-base lg:text-lg order-3'
-                      whileHover={{ scale: 1.02 }}
-                      whileTap={{ scale: 0.98 }}
-                    >
-                      <HiInformationCircle className='text-base sm:text-lg lg:text-xl' />
-                      <span>More Info</span>
-                    </motion.button>
+                  
                   </motion.div>
                 </motion.div>
               )}

@@ -12,14 +12,27 @@ import { useState, useEffect } from 'react';
 import { HiTrendingUp, HiStar, HiClock, HiUsers, HiCollection, HiChevronDown } from 'react-icons/hi';
 import { RiVipCrownLine, RiLiveLine } from 'react-icons/ri';
 import { MdMovieCreation, MdRecommend } from 'react-icons/md';
+import { BiCameraMovie } from 'react-icons/bi';
+import { FaChild } from 'react-icons/fa';
+import useSWR from 'swr';
+import fetcher from '../lib/fetcher';
 
 const Browse: NextPage = () => {
-  const { data: movies = [] } = useMovieList();
+  const { data: allMovies = [] } = useMovieList();
   const { data: favourites = [] } = useFavourites();
   const { isOpen, closeModal } = useInfoModal();
   const [activeCategory, setActiveCategory] = useState('all');
   const [showAllCategories, setShowAllCategories] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
+
+  // Fetch movies by category
+  const { data: categoryMovies = [] } = useSWR(
+    activeCategory !== 'all' ? `/api/movies?category=${activeCategory}` : null,
+    fetcher
+  );
+
+  // Get trending movies
+  const { data: trendingMovies = [] } = useSWR('/api/movies?trending=true', fetcher);
 
   // Enhanced responsive hook with debouncing
   useEffect(() => {
@@ -43,9 +56,12 @@ const Browse: NextPage = () => {
   const categories = [
     { id: 'all', label: 'All Content', icon: HiCollection },
     { id: 'trending', label: 'Trending', icon: HiTrendingUp },
-    { id: 'premium', label: 'Premium', icon: RiVipCrownLine },
-    { id: 'live', label: 'Live', icon: RiLiveLine },
     { id: 'movies', label: 'Movies', icon: MdMovieCreation },
+    { id: 'series', label: 'TV Series', icon: BiCameraMovie },
+    { id: 'documentaries', label: 'Documentaries', icon: MdRecommend },
+    { id: 'anime', label: 'Anime', icon: HiStar },
+    { id: 'kids', label: 'Kids & Family', icon: FaChild },
+    { id: 'originals', label: 'Funstar Originals', icon: RiVipCrownLine },
   ];
 
   const platformStats = [
@@ -57,6 +73,20 @@ const Browse: NextPage = () => {
   const visibleCategories = isMobile && !showAllCategories 
     ? categories.slice(0, 3) 
     : categories;
+
+  // Get movies to display based on active category
+  const getMoviesToDisplay = () => {
+    switch (activeCategory) {
+      case 'all':
+        return allMovies;
+      case 'trending':
+        return trendingMovies;
+      default:
+        return categoryMovies;
+    }
+  };
+
+  const moviesToDisplay = getMoviesToDisplay();
 
   return (
     <div className="min-h-screen min-h-[100dvh] bg-gradient-to-br from-slate-950 via-slate-900 to-slate-950 relative overflow-x-hidden">
@@ -178,28 +208,6 @@ const Browse: NextPage = () => {
                 </motion.div>
               </motion.button>
             )}
-            
-            {/* Desktop horizontal scroll */}
-            {!isMobile && (
-              <div className="hidden md:flex gap-3 lg:gap-4 overflow-x-auto pb-2 scrollbar-hide">
-                {categories.map((category) => (
-                  <motion.button
-                    key={category.id}
-                    onClick={() => setActiveCategory(category.id)}
-                    className={`flex items-center gap-3 px-6 py-3 rounded-lg transition-all duration-300 whitespace-nowrap border ${
-                      activeCategory === category.id
-                        ? 'bg-slate-700 text-white border-slate-600 shadow-lg'
-                        : 'bg-slate-800/30 text-slate-300 hover:bg-slate-700/50 border-slate-700/50 hover:border-slate-600/50'
-                    }`}
-                    whileHover={{ scale: 1.02 }}
-                    whileTap={{ scale: 0.98 }}
-                  >
-                    <category.icon className="text-lg" />
-                    <span className="font-medium">{category.label}</span>
-                  </motion.button>
-                ))}
-              </div>
-            )}
           </div>
         </div>
       </motion.nav>
@@ -213,42 +221,38 @@ const Browse: NextPage = () => {
       >
         <div className="space-y-6 sm:space-y-8 md:space-y-12 lg:space-y-16">
           
-          {/* Trending Section */}
-          <section>
-            <div className="px-4 sm:px-6 md:px-8 lg:px-12 xl:px-16 2xl:px-20 mb-3 sm:mb-4 md:mb-6 lg:mb-8">
-              <div className="flex items-start gap-3 sm:gap-4 mb-3 sm:mb-4">
-                <div className="flex-shrink-0 p-2 sm:p-3 bg-gradient-to-r from-orange-600/20 to-red-600/20 rounded-lg border border-orange-500/30">
-                  <HiTrendingUp className="text-orange-400 text-base sm:text-lg lg:text-xl" />
-                </div>
-                <div className="min-w-0 flex-1">
-                  <h2 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-bold text-white tracking-tight leading-tight">
-                    Trending This Week
-                  </h2>
-                  <p className="text-slate-400 text-sm sm:text-base mt-1">Most watched content right now</p>
-                </div>
-              </div>
-              <div className="w-12 sm:w-16 md:w-20 h-0.5 bg-gradient-to-r from-orange-500/60 to-transparent rounded-full"></div>
-            </div>
-            <MovieList title="" data={movies} />
-          </section>
-
-          {/* AI Recommendations */}
+          {/* Selected Category Content */}
           <section>
             <div className="px-4 sm:px-6 md:px-8 lg:px-12 xl:px-16 2xl:px-20 mb-3 sm:mb-4 md:mb-6 lg:mb-8">
               <div className="flex items-start gap-3 sm:gap-4 mb-3 sm:mb-4">
                 <div className="flex-shrink-0 p-2 sm:p-3 bg-gradient-to-r from-indigo-600/20 to-purple-600/20 rounded-lg border border-indigo-500/30">
-                  <MdRecommend className="text-indigo-400 text-base sm:text-lg lg:text-xl" />
+                  {(() => {
+                    const category = categories.find(c => c.id === activeCategory);
+                    const IconComponent = category?.icon || HiCollection;
+                    return <IconComponent className="text-indigo-400 text-base sm:text-lg lg:text-xl" />;
+                  })()}
                 </div>
                 <div className="min-w-0 flex-1">
                   <h2 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-bold text-white tracking-tight leading-tight">
-                    Recommended for You
+                    {categories.find(c => c.id === activeCategory)?.label}
                   </h2>
-                  <p className="text-slate-400 text-sm sm:text-base mt-1">Curated based on your preferences</p>
+                  <p className="text-slate-400 text-sm sm:text-base mt-1">
+                    {moviesToDisplay.length} {moviesToDisplay.length === 1 ? 'movie' : 'movies'} available
+                  </p>
                 </div>
               </div>
               <div className="w-12 sm:w-16 md:w-20 h-0.5 bg-gradient-to-r from-indigo-500/60 to-transparent rounded-full"></div>
             </div>
-            <MovieList title="" data={movies} />
+            {moviesToDisplay.length > 0 ? (
+              <MovieList title="" data={moviesToDisplay} />
+            ) : (
+              <div className="px-4 sm:px-6 md:px-8 lg:px-12 xl:px-16 2xl:px-20">
+                <div className="text-center py-12">
+                  <div className="text-slate-400 text-lg mb-2">No movies found</div>
+                  <div className="text-slate-500 text-sm">Try selecting a different category</div>
+                </div>
+              </div>
+            )}
           </section>
 
           {/* Continue Watching */}
@@ -278,35 +282,6 @@ const Browse: NextPage = () => {
               </motion.section>
             )}
           </AnimatePresence>
-
-          {/* Funstar Originals */}
-          <section>
-            <div className="px-4 sm:px-6 md:px-8 lg:px-12 xl:px-16 2xl:px-20 mb-3 sm:mb-4 md:mb-6 lg:mb-8">
-              <div className="flex items-start gap-3 sm:gap-4 mb-3 sm:mb-4">
-                <div className="flex-shrink-0 p-2 sm:p-3 bg-gradient-to-r from-amber-600/20 to-yellow-600/20 rounded-lg border border-amber-500/30">
-                  <RiVipCrownLine className="text-amber-400 text-base sm:text-lg lg:text-xl" />
-                </div>
-                <div className="min-w-0 flex-1">
-                  <h2 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-bold text-white tracking-tight leading-tight">
-                    Funstar Originals
-                  </h2>
-                  <p className="text-slate-400 text-sm sm:text-base mt-1">Exclusive premium content</p>
-                </div>
-              </div>
-              <div className="w-12 sm:w-16 md:w-20 h-0.5 bg-gradient-to-r from-amber-500/60 to-transparent rounded-full"></div>
-            </div>
-            <MovieList title="" data={movies} />
-          </section>
-
-          {/* Additional Categories - Mobile optimized */}
-          <div className="space-y-6 sm:space-y-8 md:space-y-12">
-            <MovieList title="New Releases" data={movies} />
-            <MovieList title="Award Winners" data={movies} />
-            <MovieList title="Action & Adventure" data={movies} />
-            <MovieList title="Critically Acclaimed" data={movies} />
-            <MovieList title="International Cinema" data={movies} />
-            <MovieList title="Documentaries" data={movies} />
-          </div>
         </div>
       </motion.main>
     </div>

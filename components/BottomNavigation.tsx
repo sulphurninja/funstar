@@ -51,12 +51,7 @@ const BottomNavigation = () => {
       path: '/watchlist',
       badge: 3
     },
-    {
-      id: 'profile',
-      label: 'Profile',
-      icon: HiUser,
-      path: '/profile'
-    }
+  
   ];
 
   const handleNavigation = (path: string) => {

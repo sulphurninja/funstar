@@ -35,16 +35,21 @@ const Home: NextPage = () => {
           >
             <Link href='/'>
               <motion.div
-                className="flex items-center gap-3"
-                whileHover={{ scale: 1.05 }}
+                className="flex items-center gap-2 sm:gap-3"
+                whileHover={{ scale: 1.02 }}
                 transition={{ duration: 0.3 }}
               >
-                <div className="w-10 h-10 bg-gradient-to-br from-indigo-500 via-purple-600 to-pink-500 rounded-xl flex items-center justify-center shadow-lg">
-                  <RiMovieLine className="text-white text-xl" />
+                <div className="relative">
+                  <motion.div
+                    className="p-2 bg-gradient-to-br from-indigo-500 via-purple-600 to-pink-500 rounded-xl flex items-center justify-center shadow-lg"
+                    whileHover={{ rotate: 5 }}
+                    transition={{ duration: 0.3 }}
+                  >
+                    <img src='/logo.png' className='h-12' />
+
+                  </motion.div>
+                  <div className="absolute -top-1 -right-1 w-2 h-2 sm:w-3 sm:h-3 bg-emerald-400 rounded-full animate-pulse"></div>
                 </div>
-                <span className="text-3xl font-bold tracking-tight bg-gradient-to-r from-white via-slate-200 to-slate-300 bg-clip-text text-transparent">
-                  Funstar
-                </span>
               </motion.div>
             </Link>
             <div className='inline-flex items-center gap-4'>

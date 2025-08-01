@@ -61,11 +61,25 @@ model VerificationToken {
   @@unique([identifier, token])
 }
 
+
+enum MovieCategory {
+  trending
+  movies
+  tv_series          // using underscore for database
+  documentaries
+  anime
+  kids_family        // using underscore for database
+  funstar_originals  // using underscore for database
+}
+
+
 model Movie {
   id String @id @default(auto()) @map("_id") @db.ObjectId
   title String
   description String
   videoUrl String
+  category     MovieCategory @default(movies)  // Use enum instead of String
+  isTrending   Boolean       @default(false)
   thumbnailUrl String
   genre String[]
   duration String

@@ -11,7 +11,8 @@ const nextConfig = {
   images: {
     domains: [
       'image.tmdb.org',
-      'via.placeholder.com'
+      'via.placeholder.com',
+      'imgs.search.brave.com'
     ],
   }
 };
