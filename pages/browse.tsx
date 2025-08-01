@@ -21,15 +21,23 @@ const Browse: NextPage = () => {
   const [showAllCategories, setShowAllCategories] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
 
-  // Responsive hook
+  // Enhanced responsive hook with debouncing
   useEffect(() => {
+    let timeoutId: NodeJS.Timeout;
+    
     const checkMobile = () => {
-      setIsMobile(window.innerWidth < 768);
+      clearTimeout(timeoutId);
+      timeoutId = setTimeout(() => {
+        setIsMobile(window.innerWidth < 768);
+      }, 100);
     };
     
     checkMobile();
     window.addEventListener('resize', checkMobile);
-    return () => window.removeEventListener('resize', checkMobile);
+    return () => {
+      window.removeEventListener('resize', checkMobile);
+      clearTimeout(timeoutId);
+    };
   }, []);
 
   const categories = [
@@ -51,11 +59,11 @@ const Browse: NextPage = () => {
     : categories;
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-950 via-slate-900 to-slate-950 relative">
-      {/* Responsive background elements */}
+    <div className="min-h-screen min-h-[100dvh] bg-gradient-to-br from-slate-950 via-slate-900 to-slate-950 relative overflow-x-hidden">
+      {/* Mobile-optimized background elements */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
         <motion.div
-          className="absolute top-1/4 right-1/4 w-64 h-64 sm:w-80 sm:h-80 lg:w-96 lg:h-96 bg-indigo-500/5 rounded-full blur-3xl"
+          className="absolute top-1/4 right-1/4 w-48 h-48 sm:w-64 sm:h-64 md:w-80 md:h-80 lg:w-96 lg:h-96 bg-indigo-500/5 rounded-full blur-3xl"
           animate={{ 
             scale: [1, 1.1, 1],
             opacity: [0.3, 0.5, 0.3]
@@ -63,7 +71,7 @@ const Browse: NextPage = () => {
           transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
         />
         <motion.div
-          className="absolute bottom-1/4 left-1/4 w-64 h-64 sm:w-80 sm:h-80 lg:w-96 lg:h-96 bg-purple-500/5 rounded-full blur-3xl"
+          className="absolute bottom-1/4 left-1/4 w-48 h-48 sm:w-64 sm:h-64 md:w-80 md:h-80 lg:w-96 lg:h-96 bg-purple-500/5 rounded-full blur-3xl"
           animate={{ 
             scale: [1.1, 1, 1.1],
             opacity: [0.2, 0.4, 0.2]
@@ -82,41 +90,41 @@ const Browse: NextPage = () => {
       
       <Billboard />
 
-      {/* Fully responsive stats section with bottom nav padding */}
+      {/* Mobile-first stats section */}
       <motion.section 
-        className="relative z-10 -mt-12 sm:-mt-16 md:-mt-20 lg:-mt-24 mb-6 sm:mb-8 lg:mb-12"
+        className="relative z-10 -mt-8 sm:-mt-12 md:-mt-16 lg:-mt-20 mb-4 sm:mb-6 md:mb-8 lg:mb-12"
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.8, delay: 0.5 }}
       >
-        <div className="px-3 xs:px-4 sm:px-6 lg:px-12 xl:px-16 2xl:px-20">
-          <div className="bg-slate-900/40 backdrop-blur-xl rounded-lg sm:rounded-xl lg:rounded-2xl border border-slate-700/30 p-3 xs:p-4 sm:p-6 lg:p-8">
+        <div className="px-4 sm:px-6 md:px-8 lg:px-12 xl:px-16 2xl:px-20">
+          <div className="bg-slate-900/40 backdrop-blur-xl rounded-xl md:rounded-2xl border border-slate-700/30 p-4 sm:p-6 md:p-8">
             <div className="flex flex-col space-y-4 sm:space-y-0 sm:flex-row sm:items-center sm:justify-between">
-              {/* Live indicator - responsive */}
+              {/* Live indicator */}
               <div className="flex items-center gap-2 sm:gap-3">
                 <motion.div
                   className="w-2 h-2 sm:w-3 sm:h-3 bg-emerald-500 rounded-full"
                   animate={{ opacity: [1, 0.5, 1] }}
                   transition={{ duration: 2, repeat: Infinity }}
                 />
-                <span className="text-white font-medium text-xs xs:text-sm sm:text-base">Platform Statistics</span>
+                <span className="text-white font-medium text-sm sm:text-base">Platform Statistics</span>
               </div>
               
-              {/* Stats - responsive grid */}
-              <div className="grid grid-cols-3 gap-3 xs:gap-4 sm:flex sm:items-center sm:gap-6 lg:gap-8">
+              {/* Mobile-optimized stats grid */}
+              <div className="grid grid-cols-3 gap-4 sm:flex sm:items-center sm:gap-6 lg:gap-8 w-full sm:w-auto">
                 {platformStats.map((stat, index) => (
                   <motion.div
                     key={stat.label}
-                    className="text-center"
+                    className="text-center sm:text-left"
                     initial={{ opacity: 0, y: 10 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ delay: 0.7 + index * 0.1 }}
                   >
-                    <div className="flex flex-col xs:flex-row items-center justify-center gap-1 xs:gap-1.5 sm:gap-2 mb-1">
-                      <stat.icon className="text-slate-400 text-xs xs:text-sm sm:text-base" />
-                      <span className="text-white font-bold text-xs xs:text-sm sm:text-lg">{stat.value}</span>
+                    <div className="flex flex-col sm:flex-row items-center justify-center sm:justify-start gap-1 sm:gap-2 mb-1">
+                      <stat.icon className="text-slate-400 text-sm sm:text-base" />
+                      <span className="text-white font-bold text-sm sm:text-lg">{stat.value}</span>
                     </div>
-                    <span className="text-slate-400 text-xs sm:text-sm">{stat.label}</span>
+                    <span className="text-slate-400 text-xs sm:text-sm block">{stat.label}</span>
                   </motion.div>
                 ))}
               </div>
@@ -125,120 +133,120 @@ const Browse: NextPage = () => {
         </div>
       </motion.section>
 
-      {/* Responsive category navigation */}
+      {/* Mobile-first category navigation */}
       <motion.nav
-        className="relative z-10 mb-6 sm:mb-8 lg:mb-12"
+        className="relative z-10 mb-4 sm:mb-6 md:mb-8 lg:mb-12"
         initial={{ opacity: 0, x: -20 }}
         animate={{ opacity: 1, x: 0 }}
         transition={{ duration: 0.6, delay: 0.3 }}
       >
-        <div className="px-3 xs:px-4 sm:px-6 lg:px-12 xl:px-16 2xl:px-20">
-          {/* Mobile collapsible categories */}
-          {isMobile ? (
-            <div className="space-y-3">
-              <div className="flex flex-wrap gap-2">
-                {visibleCategories.map((category) => (
+        <div className="px-4 sm:px-6 md:px-8 lg:px-12 xl:px-16 2xl:px-20">
+          {/* Mobile optimized categories */}
+          <div className="space-y-3">
+            <div className="flex flex-wrap gap-2 sm:gap-3">
+              {visibleCategories.map((category) => (
+                <motion.button
+                  key={category.id}
+                  onClick={() => setActiveCategory(category.id)}
+                  className={`flex items-center gap-2 px-3 sm:px-4 py-2 sm:py-2.5 rounded-lg transition-all duration-300 border text-sm ${
+                    activeCategory === category.id
+                      ? 'bg-slate-700 text-white border-slate-600 shadow-lg'
+                      : 'bg-slate-800/30 text-slate-300 hover:bg-slate-700/50 border-slate-700/50 active:bg-slate-700/70'
+                  }`}
+                  whileHover={{ scale: isMobile ? 1 : 1.02 }}
+                  whileTap={{ scale: 0.98 }}
+                >
+                  <category.icon className="text-sm sm:text-base flex-shrink-0" />
+                  <span className="font-medium whitespace-nowrap">{category.label}</span>
+                </motion.button>
+              ))}
+            </div>
+            
+            {/* Show more button for mobile */}
+            {isMobile && categories.length > 3 && (
+              <motion.button
+                onClick={() => setShowAllCategories(!showAllCategories)}
+                className="flex items-center gap-2 text-slate-400 hover:text-white active:text-slate-200 text-sm font-medium transition-colors py-1"
+                whileTap={{ scale: 0.98 }}
+              >
+                <span>{showAllCategories ? 'Show Less' : 'Show More'}</span>
+                <motion.div
+                  animate={{ rotate: showAllCategories ? 180 : 0 }}
+                  transition={{ duration: 0.3 }}
+                >
+                  <HiChevronDown className="text-sm" />
+                </motion.div>
+              </motion.button>
+            )}
+            
+            {/* Desktop horizontal scroll */}
+            {!isMobile && (
+              <div className="hidden md:flex gap-3 lg:gap-4 overflow-x-auto pb-2 scrollbar-hide">
+                {categories.map((category) => (
                   <motion.button
                     key={category.id}
                     onClick={() => setActiveCategory(category.id)}
-                    className={`flex items-center gap-2 px-3 xs:px-4 py-2 rounded-lg transition-all duration-300 border text-xs xs:text-sm ${
+                    className={`flex items-center gap-3 px-6 py-3 rounded-lg transition-all duration-300 whitespace-nowrap border ${
                       activeCategory === category.id
                         ? 'bg-slate-700 text-white border-slate-600 shadow-lg'
-                        : 'bg-slate-800/30 text-slate-300 hover:bg-slate-700/50 border-slate-700/50'
+                        : 'bg-slate-800/30 text-slate-300 hover:bg-slate-700/50 border-slate-700/50 hover:border-slate-600/50'
                     }`}
                     whileHover={{ scale: 1.02 }}
                     whileTap={{ scale: 0.98 }}
                   >
-                    <category.icon className="text-sm" />
+                    <category.icon className="text-lg" />
                     <span className="font-medium">{category.label}</span>
                   </motion.button>
                 ))}
               </div>
-              
-              {/* Show more button for mobile */}
-              {categories.length > 3 && (
-                <motion.button
-                  onClick={() => setShowAllCategories(!showAllCategories)}
-                  className="flex items-center gap-2 text-slate-400 hover:text-white text-sm font-medium transition-colors"
-                  whileTap={{ scale: 0.98 }}
-                >
-                  <span>{showAllCategories ? 'Show Less' : 'Show More'}</span>
-                  <motion.div
-                    animate={{ rotate: showAllCategories ? 180 : 0 }}
-                    transition={{ duration: 0.3 }}
-                  >
-                    <HiChevronDown className="text-sm" />
-                  </motion.div>
-                </motion.button>
-              )}
-            </div>
-          ) : (
-            /* Desktop horizontal scroll */
-            <div className="flex gap-3 sm:gap-4 overflow-x-auto pb-2 scrollbar-hide">
-              {categories.map((category) => (
-                <motion.button
-                  key={category.id}
-                  onClick={() => setActiveCategory(category.id)}
-                  className={`flex items-center gap-2 sm:gap-3 px-4 sm:px-6 py-2.5 sm:py-3 rounded-lg transition-all duration-300 whitespace-nowrap border text-sm sm:text-base ${
-                    activeCategory === category.id
-                      ? 'bg-slate-700 text-white border-slate-600 shadow-lg'
-                      : 'bg-slate-800/30 text-slate-300 hover:bg-slate-700/50 border-slate-700/50 hover:border-slate-600/50'
-                  }`}
-                  whileHover={{ scale: 1.02 }}
-                  whileTap={{ scale: 0.98 }}
-                >
-                  <category.icon className="text-base sm:text-lg" />
-                  <span className="font-medium">{category.label}</span>
-                </motion.button>
-              ))}
-            </div>
-          )}
+            )}
+          </div>
         </div>
       </motion.nav>
 
-      {/* Responsive content sections with bottom nav padding */}
+      {/* Mobile-optimized content sections */}
       <motion.main 
-        className="relative z-10 pb-24 sm:pb-16 lg:pb-20 xl:pb-24"
+        className="relative z-10 pb-20 sm:pb-24 lg:pb-28"
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ duration: 0.8, delay: 0.4 }}
       >
-        <div className="space-y-8 sm:space-y-12 lg:space-y-16 xl:space-y-20">
+        <div className="space-y-6 sm:space-y-8 md:space-y-12 lg:space-y-16">
           
           {/* Trending Section */}
           <section>
-            <div className="px-3 xs:px-4 sm:px-6 lg:px-12 xl:px-16 2xl:px-20 mb-4 sm:mb-6 lg:mb-8">
-              <div className="flex flex-col xs:flex-row xs:items-start gap-3 xs:gap-4 mb-3 sm:mb-4">
-                <div className="flex-shrink-0 p-2 sm:p-3 bg-gradient-to-r from-orange-600/20 to-red-600/20 rounded-lg w-fit border border-orange-500/30">
+            <div className="px-4 sm:px-6 md:px-8 lg:px-12 xl:px-16 2xl:px-20 mb-3 sm:mb-4 md:mb-6 lg:mb-8">
+              <div className="flex items-start gap-3 sm:gap-4 mb-3 sm:mb-4">
+                <div className="flex-shrink-0 p-2 sm:p-3 bg-gradient-to-r from-orange-600/20 to-red-600/20 rounded-lg border border-orange-500/30">
                   <HiTrendingUp className="text-orange-400 text-base sm:text-lg lg:text-xl" />
                 </div>
                 <div className="min-w-0 flex-1">
-                  <h2 className="text-lg xs:text-xl sm:text-2xl lg:text-3xl xl:text-4xl font-bold text-white tracking-tight leading-tight">
+                  <h2 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-bold text-white tracking-tight leading-tight">
                     Trending This Week
                   </h2>
-                  <p className="text-slate-400 text-xs xs:text-sm sm:text-base mt-1">Most watched content right now</p>
+                  <p className="text-slate-400 text-sm sm:text-base mt-1">Most watched content right now</p>
                 </div>
               </div>
-              <div className="w-8 xs:w-10 sm:w-12 lg:w-16 xl:w-20 h-0.5 bg-gradient-to-r from-orange-500/60 to-transparent rounded-full"></div>
+              <div className="w-12 sm:w-16 md:w-20 h-0.5 bg-gradient-to-r from-orange-500/60 to-transparent rounded-full"></div>
             </div>
             <MovieList title="" data={movies} />
           </section>
 
           {/* AI Recommendations */}
           <section>
-            <div className="px-3 xs:px-4 sm:px-6 lg:px-12 xl:px-16 2xl:px-20 mb-4 sm:mb-6 lg:mb-8">
-              <div className="flex flex-col xs:flex-row xs:items-start gap-3 xs:gap-4 mb-3 sm:mb-4">
-                <div className="flex-shrink-0 p-2 sm:p-3 bg-gradient-to-r w-fit from-indigo-600/20 to-purple-600/20 rounded-lg border border-indigo-500/30">
+            <div className="px-4 sm:px-6 md:px-8 lg:px-12 xl:px-16 2xl:px-20 mb-3 sm:mb-4 md:mb-6 lg:mb-8">
+              <div className="flex items-start gap-3 sm:gap-4 mb-3 sm:mb-4">
+                <div className="flex-shrink-0 p-2 sm:p-3 bg-gradient-to-r from-indigo-600/20 to-purple-600/20 rounded-lg border border-indigo-500/30">
                   <MdRecommend className="text-indigo-400 text-base sm:text-lg lg:text-xl" />
                 </div>
                 <div className="min-w-0 flex-1">
-                  <h2 className="text-lg xs:text-xl sm:text-2xl lg:text-3xl xl:text-4xl font-bold text-white tracking-tight leading-tight">
+                  <h2 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-bold text-white tracking-tight leading-tight">
                     Recommended for You
                   </h2>
-                  <p className="text-slate-400 text-xs xs:text-sm sm:text-base mt-1">Curated based on your preferences</p>
+                  <p className="text-slate-400 text-sm sm:text-base mt-1">Curated based on your preferences</p>
                 </div>
               </div>
-              <div className="w-8 xs:w-10 sm:w-12 lg:w-16 xl:w-20 h-0.5 bg-gradient-to-r from-indigo-500/60 to-transparent rounded-full"></div>
+              <div className="w-12 sm:w-16 md:w-20 h-0.5 bg-gradient-to-r from-indigo-500/60 to-transparent rounded-full"></div>
             </div>
             <MovieList title="" data={movies} />
           </section>
@@ -252,19 +260,19 @@ const Browse: NextPage = () => {
                 exit={{ opacity: 0, scale: 0.98 }}
                 transition={{ duration: 0.5 }}
               >
-                <div className="px-3 xs:px-4 sm:px-6 lg:px-12 xl:px-16 2xl:px-20 mb-4 sm:mb-6 lg:mb-8">
-                  <div className="flex flex-col xs:flex-row xs:items-start gap-3 xs:gap-4 mb-3 sm:mb-4">
-                    <div className="flex-shrink-0 p-2 sm:p-3 bg-gradient-to-r w-fit from-emerald-600/20 to-teal-600/20 rounded-lg border border-emerald-500/30">
+                <div className="px-4 sm:px-6 md:px-8 lg:px-12 xl:px-16 2xl:px-20 mb-3 sm:mb-4 md:mb-6 lg:mb-8">
+                  <div className="flex items-start gap-3 sm:gap-4 mb-3 sm:mb-4">
+                    <div className="flex-shrink-0 p-2 sm:p-3 bg-gradient-to-r from-emerald-600/20 to-teal-600/20 rounded-lg border border-emerald-500/30">
                       <HiClock className="text-emerald-400 text-base sm:text-lg lg:text-xl" />
                     </div>
                     <div className="min-w-0 flex-1">
-                      <h2 className="text-lg xs:text-xl sm:text-2xl lg:text-3xl xl:text-4xl font-bold text-white tracking-tight leading-tight">
+                      <h2 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-bold text-white tracking-tight leading-tight">
                         Continue Watching
                       </h2>
-                      <p className="text-slate-400 text-xs xs:text-sm sm:text-base mt-1">Resume where you left off</p>
+                      <p className="text-slate-400 text-sm sm:text-base mt-1">Resume where you left off</p>
                     </div>
                   </div>
-                  <div className="w-8 xs:w-10 sm:w-12 lg:w-16 xl:w-20 h-0.5 bg-gradient-to-r from-emerald-500/60 to-transparent rounded-full"></div>
+                  <div className="w-12 sm:w-16 md:w-20 h-0.5 bg-gradient-to-r from-emerald-500/60 to-transparent rounded-full"></div>
                 </div>
                 <MovieList title="" data={favourites} />
               </motion.section>
@@ -273,25 +281,25 @@ const Browse: NextPage = () => {
 
           {/* Funstar Originals */}
           <section>
-            <div className="px-3 xs:px-4 sm:px-6 lg:px-12 xl:px-16 2xl:px-20 mb-4 sm:mb-6 lg:mb-8">
-              <div className="flex flex-col xs:flex-row xs:items-start gap-3 xs:gap-4 mb-3 sm:mb-4">
-                <div className="flex-shrink-0 p-2 sm:p-3 bg-gradient-to-r w-fit from-amber-600/20 to-yellow-600/20 rounded-lg border border-amber-500/30">
+            <div className="px-4 sm:px-6 md:px-8 lg:px-12 xl:px-16 2xl:px-20 mb-3 sm:mb-4 md:mb-6 lg:mb-8">
+              <div className="flex items-start gap-3 sm:gap-4 mb-3 sm:mb-4">
+                <div className="flex-shrink-0 p-2 sm:p-3 bg-gradient-to-r from-amber-600/20 to-yellow-600/20 rounded-lg border border-amber-500/30">
                   <RiVipCrownLine className="text-amber-400 text-base sm:text-lg lg:text-xl" />
                 </div>
                 <div className="min-w-0 flex-1">
-                  <h2 className="text-lg xs:text-xl sm:text-2xl lg:text-3xl xl:text-4xl font-bold text-white tracking-tight leading-tight">
+                  <h2 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-bold text-white tracking-tight leading-tight">
                     Funstar Originals
                   </h2>
-                  <p className="text-slate-400 text-xs xs:text-sm sm:text-base mt-1">Exclusive premium content</p>
+                  <p className="text-slate-400 text-sm sm:text-base mt-1">Exclusive premium content</p>
                 </div>
               </div>
-              <div className="w-8 xs:w-10 sm:w-12 lg:w-16 xl:w-20 h-0.5 bg-gradient-to-r from-amber-500/60 to-transparent rounded-full"></div>
+              <div className="w-12 sm:w-16 md:w-20 h-0.5 bg-gradient-to-r from-amber-500/60 to-transparent rounded-full"></div>
             </div>
             <MovieList title="" data={movies} />
           </section>
 
-          {/* Additional Categories - Clean without special styling */}
-          <div className="space-y-8 sm:space-y-12 lg:space-y-16">
+          {/* Additional Categories - Mobile optimized */}
+          <div className="space-y-6 sm:space-y-8 md:space-y-12">
             <MovieList title="New Releases" data={movies} />
             <MovieList title="Award Winners" data={movies} />
             <MovieList title="Action & Adventure" data={movies} />

@@ -58,17 +58,15 @@ const Navbar = () => {
         >
           <div className="relative">
             <motion.div
-              className="w-8 h-8 sm:w-10 sm:h-10 bg-gradient-to-br from-indigo-500 via-purple-600 to-pink-500 rounded-xl flex items-center justify-center shadow-lg"
+              className="p-2 bg-gradient-to-br from-indigo-500 via-purple-600 to-pink-500 rounded-xl flex items-center justify-center shadow-lg"
               whileHover={{ rotate: 5 }}
               transition={{ duration: 0.3 }}
             >
-              <RiMovieLine className="text-white text-base sm:text-xl" />
+                      <img  src='/logo.png' className='h-12'/>
+
             </motion.div>
             <div className="absolute -top-1 -right-1 w-2 h-2 sm:w-3 sm:h-3 bg-emerald-400 rounded-full animate-pulse"></div>
           </div>
-          <span className="text-xl sm:text-2xl font-bold tracking-tight bg-gradient-to-r from-white via-slate-200 to-slate-300 bg-clip-text text-transparent">
-            Funstar
-          </span>
         </motion.div>
 
         {/* Desktop Menu - Hidden on mobile due to bottom nav */}
