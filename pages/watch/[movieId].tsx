@@ -41,7 +41,6 @@ const Watch = () => {
           frameBorder="0"
           scrolling="no"
           seamless
-          sandbox="allow-same-origin allow-scripts allow-forms allow-popups allow-popups-to-escape-sandbox allow-presentation allow-top-navigation allow-top-navigation-by-user-activation"
           style={{
             border: 'none',
             outline: 'none',
